@@ -1,0 +1,16 @@
+let deposit: Float = 10000
+let persent: Float = 5
+let years: Int = 5
+
+print("Deposit: \(deposit), persent: \(persent), years: \(years)")
+
+var summ: Float = deposit
+var yearSum: Float = 0.0
+
+for i in (1...years)
+{
+    summ = summ * (Float(1) + persent / 100)
+    // print("\(i) year: \(summ)")
+}
+
+print("Total summ is \(summ)")
