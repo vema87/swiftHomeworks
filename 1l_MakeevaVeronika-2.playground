@@ -1,0 +1,22 @@
+import Darwin
+
+let a: Float = 0
+let b: Float = 3
+
+if a <= Float(0) || b <= Float(0)
+{
+    print("Check your cathetus. It cannot be less 0")
+} else
+{
+    // c*c = a*a + b*b
+    var c: Float = sqrt(a * a + b * b)
+    print("Hypotenuse is \(c)")
+
+    // s = ab/2
+    var s: Float = a * b / 2
+    print("Square is \(s)")
+
+    // p = a+b+c
+    var p: Float = a + b + c
+    print("Perimeter is \(p)")
+}

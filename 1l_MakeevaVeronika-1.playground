@@ -1,0 +1,43 @@
+import Darwin
+
+print("The template is ax*x + bx +c = 0")
+
+let a: Float = 3
+let b: Float = -16
+let c: Float = 27
+
+if a == 0.0
+
+{
+    print("a equals 0. It is the error")
+} else 
+{
+    // Do we have a coding style for let and var? where is the correct place for them?
+    print("The expression is \(a)x*x + \(b)x + \(c) = 0")
+
+    var x1: Float
+    var x2: Float
+
+    // x = (-b +/- sqrt(b*b - 4ac)) / 2a
+    
+    var d: Float // discriminant
+    d = b * b - 4 * a * c // also pow(num, power) can be used
+
+    if d < 0.0
+    {
+        // do we need to calculate complex roots?
+        print("Real roots do not exist")
+    } else
+    {
+        // in this case we can use another solution, but we did not learn functions
+        x1 = (-b + sqrt(d)) / (Float(2) * a)
+        x2 = (-b - sqrt(d)) / (Float(2) * a)
+        if x1 == x2
+        {
+            print("The expression has only one root: \(x1)")
+        } else 
+        {
+            print("The first root is \(x1), the second root is \(x2)")
+        }
+    }
+}
