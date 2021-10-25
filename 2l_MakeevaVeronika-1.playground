@@ -1,0 +1,15 @@
+func isEvenNumber(Number n: Int) -> Bool {
+    if (n%2 == 0) {
+        return true
+    }
+    return false
+}
+
+var num: Int = 13
+var isEven: Bool = isEvenNumber(Number: num)
+
+if (isEven) {
+    print("Number \(num) is even")
+} else {
+    print("Number \(num) is odd")
+}
