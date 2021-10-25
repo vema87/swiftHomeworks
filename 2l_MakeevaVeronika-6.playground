@@ -1,0 +1,42 @@
+/*6. * Заполнить массив из 100 элементов различными простыми числами. Натуральное число, большее единицы, называется простым, если оно делится только на себя и на единицу. Для нахождения всех простых чисел не больше заданного числа n, следуя методу Эратосфена, нужно выполнить следующие шаги:
+a. Выписать подряд все целые числа от двух до n (2, 3, 4, ..., n).
+b. Пусть переменная p изначально равна двум — первому простому числу.
+c. Зачеркнуть в списке числа от 2 + p до n, считая шагом p..
+d. Найти первое не зачёркнутое число в списке, большее, чем p, и присвоить значению переменной p это число.
+e. Повторять шаги c и d, пока возможно.*/
+
+import Foundation
+
+func removeNotPrimeNumber(primeNumberArray: inout [Int], step p: Int) {
+    var element = p*p // the error in task description. It must be p*p instead of 2+p
+    var index: Int
+    while (element <= primeNumberArray[primeNumberArray.count - 1]) {
+        index = primeNumberArray.firstIndex(where: { $0 == element }) ?? -1
+        if index != -1 {
+            primeNumberArray.remove(at: index)
+        }
+        element += p
+    }
+}
+
+var primeNumberArray = [Int]()
+var n: Int = 1000 // n from Efatosphen method
+var p: Int = 2  // p from Efatosphen method
+var pIndex: Int = 0
+
+
+if n >= 2 && n <= 10000 {
+	// create an array with numbers from 2 to n
+	for i in (2...n) {
+		primeNumberArray.append(i)
+	}
+	
+    while (pIndex < primeNumberArray.count) {
+        p = primeNumberArray[pIndex]
+        removeNotPrimeNumber(primeNumberArray: &primeNumberArray, step: p)
+        pIndex += 1
+    }
+    print("Resilt: \(primeNumberArray)")
+} else {
+	print("Your n \(n) is very big")
+}

@@ -1,0 +1,20 @@
+func isDivisibleWithoutRemainder(Number n: Int, Divider d: Int) -> Bool {
+    if (n%d == 0) {
+        return true
+    }
+    return false
+}
+
+var num: Int = 11
+var divider: Int = 2
+var isDivisible: Bool = false
+if (divider != 0) {
+    isDivisible = isDivisibleWithoutRemainder(Number: num, Divider: divider)
+    if (isDivisible) {
+        print("Number \(num) is divided by  \(divider) without remaider")
+    } else {
+        print("Number \(num) is not divided by \(divider) without remaider")
+    }
+} else {
+    print("You can not divide by 0")
+}

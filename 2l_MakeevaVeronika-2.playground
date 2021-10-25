@@ -1,0 +1,15 @@
+func isDivisibleByThree(Number n: Int) -> Bool {
+    if (n%3 == 0) {
+        return true
+    }
+    return false
+}
+
+var num: Int = 9
+var isDivisible: Bool = isDivisibleByThree(Number: num)
+
+if (isDivisible) {
+    print("Number \(num) is divided by 3 without remaider")
+} else {
+    print("Number \(num) is not divided by 3 without remainder ")
+}
