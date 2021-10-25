@@ -1,0 +1,39 @@
+//Удалить из этого массива все четные числа и все числа, которые не делятся на 3.
+
+func generateOrderedRandomIntArray(ArraySize arraySize: Int, StartNumber startNumber: Int, EndNumber endNumber: Int) -> Array<Int> {
+    var arr = [Int]()
+    for _ in 1...arraySize {
+        arr.append(Int.random(in: startNumber...endNumber))
+    }
+    return arr.sorted(by: >)
+}
+
+func isDivisibleWithoutRemainder(Number n: Int, Divider d: Int) -> Bool {
+    if (n%d == 0) {
+        return true
+    }
+    return false
+}
+
+var start: Int = 5
+var end: Int = 18
+var size: Int = 10
+var arr = generateOrderedRandomIntArray(ArraySize: size, StartNumber: start, EndNumber: end)
+
+print("Array: \(arr)")
+
+var i: Int = 0
+var isEven: Bool = false
+var isDivisibleByThree: Bool = false
+
+while (i != arr.count) {
+    isEven = isDivisibleWithoutRemainder(Number: arr[i], Divider: 2)
+    isDivisibleWithoutRemainder(Number: arr[i], Divider: 3)
+    if (isEven || isDivisibleByThree) {
+        arr.remove(at: i)
+    } else {
+        i += 1
+    }
+}
+print("Result: \(arr)")
+
