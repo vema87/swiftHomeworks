@@ -1,0 +1,20 @@
+// Написать функцию, которая добавляет в массив новое число Фибоначчи, и добавить при помощи нее 50 элементов.
+
+func addNewFibonachiNumberToArray(fibonachiArray: inout [Int]) {
+    if fibonachiArray.count == 0 {
+        fibonachiArray.append(0)
+    } else if fibonachiArray.count == 1 {
+        fibonachiArray.append(1)
+    } else {
+        fibonachiArray.append(fibonachiArray[fibonachiArray.count-1] + fibonachiArray[fibonachiArray.count-2])
+    }
+}
+
+var fibonachiArray = [Int]()
+var fibonachiCount: Int = 50
+
+while fibonachiArray.count != fibonachiCount {
+    addNewFibonachiNumberToArray(fibonachiArray: &fibonachiArray)
+}
+
+print("Fibonachi array: \(fibonachiArray)")
