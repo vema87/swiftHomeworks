@@ -1,0 +1,112 @@
+import Foundation
+
+enum CarEngineStatus {
+    case started
+    case stopped
+}
+
+enum CarWindowsStatus {
+    case opened
+    case closed
+}
+
+enum CarActions {
+    case closeWindows
+    case openWindows
+    case startEngine
+    case stopEngine 
+}
+
+/* для багажника отдельные действия и отдельная функция, так как им нужны доп параметры, 
+а передавать их через основную функцию и как-то анврапить получается не очень красиво.
+Если нужно, могу переделать на 1 функцию и общий enum
+*/
+enum TrunkActions {
+    case loadCargo          // загрузить груз
+    case unloadCargo        // выгрузить груз 
+}
+
+struct Car {
+    let brend: String
+    let year: Int
+    let trunkVolume: Double // литры
+    var filledTrunkVolume: Double = 0
+    var windowsState: CarWindowsStatus
+    var engineState: CarEngineStatus
+
+    mutating func doAction(action: CarActions) {
+        switch action {
+            case .closeWindows:
+                self.windowsState = .closed
+                print("Windows are closed")
+            case .openWindows:
+                self.windowsState = .opened
+                print("Windows are opened")
+            case .startEngine:
+                self.engineState = .started
+                print("Engine started")
+            case .stopEngine:
+                self.engineState = .stopped
+                print("Engine stopped")
+        }
+    }
+
+    mutating func changeFilledTrunkVolume(action: TrunkActions, volume: Double) {
+        switch action {
+            case .loadCargo:
+                if trunkVolume >= (filledTrunkVolume + volume) {
+                    self.filledTrunkVolume = filledTrunkVolume + volume
+                    print("New filled Trunk Volume is ", filledTrunkVolume)
+                } else {
+                    print("You already loaded ", filledTrunkVolume, " litres from " , trunkVolume, " litres. You try to load ", volume, " liters. It is absolutely impossible")
+                }
+            case .unloadCargo:
+                if (filledTrunkVolume - volume) > 0 { 
+                    self.filledTrunkVolume = filledTrunkVolume - volume
+                    print("New filled Trunk Volume is ", filledTrunkVolume)
+                } else {
+                    print("Filled Trunk Volume is ", filledTrunkVolume, " litres. You try to unload ", volume, " litres. It is absolutely impossible")
+                }
+        }
+    }
+}
+
+var kiaRio: Car = Car(brend: "Kia Rio", year: 2020, trunkVolume: 480, filledTrunkVolume: 0, windowsState: .opened, engineState: .stopped)
+print(">> ", kiaRio)
+
+kiaRio.doAction(action: .closeWindows)
+print(">> ", kiaRio)
+kiaRio.doAction(action: .openWindows)
+print(">> ", kiaRio)
+kiaRio.doAction(action: .startEngine)
+print(">> ", kiaRio)
+kiaRio.doAction(action: .stopEngine)
+print(">> ", kiaRio)
+kiaRio.changeFilledTrunkVolume(action: .loadCargo, volume: 300)
+print(">> ", kiaRio)
+kiaRio.changeFilledTrunkVolume(action: .loadCargo, volume: 300)
+print(">> ", kiaRio)
+kiaRio.changeFilledTrunkVolume(action: .unloadCargo, volume: 200)
+print(">> ", kiaRio)
+kiaRio.changeFilledTrunkVolume(action: .unloadCargo, volume: 200)
+print("----------------------------------------------------------------")
+
+var gazel: Car = Car(brend: "Gazel 3302", year: 2018, trunkVolume: 1500, filledTrunkVolume: 0, windowsState: .opened, engineState: .stopped)
+print(">> ", gazel)
+
+gazel.doAction(action: .closeWindows)
+print(">> ", gazel)
+gazel.doAction(action: .openWindows)
+print(">> ", gazel)
+gazel.doAction(action: .startEngine)
+print(">> ", gazel)
+gazel.doAction(action: .stopEngine)
+print(">> ", gazel)
+gazel.changeFilledTrunkVolume(action: .loadCargo, volume: 300)
+print(">> ", gazel)
+gazel.changeFilledTrunkVolume(action: .loadCargo, volume: 1500)
+print(">> ", gazel)
+gazel.changeFilledTrunkVolume(action: .unloadCargo, volume: 200)
+print(">> ", gazel)
+gazel.changeFilledTrunkVolume(action: .unloadCargo, volume: 1000)
+print("----------------------------------------------------------------")
