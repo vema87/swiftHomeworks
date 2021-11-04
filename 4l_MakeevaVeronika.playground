@@ -1,0 +1,145 @@
+
+enum CarEngineState {
+    case started
+    case stopped
+}
+enum CarWindowsState {
+    case opened
+    case closed
+}
+
+enum CarActions {
+    case closeWindows
+    case openWindows
+    case startEngine
+    case stopEngine
+    case uncoupleTrailer // отцепить прицеп
+    case attachTrailer
+    case openSunroof
+    case closeSuunroof
+}
+
+enum SportcarSunroofState {
+    case opened
+    case closed
+}
+
+enum TrunkTrailerState {
+    case uncoupled
+    case attached
+}
+
+class Car {
+    let brend: String
+    let year: Int
+    let trunkVolume: Double
+    var filledTrunkVolume: Double
+    var windowsState: CarWindowsState
+    var engineState: CarEngineState
+    
+    init (brend: String, year: Int, trunkVolume: Double, filledTrunkVolume: Double, windowsState: CarWindowsState, engineState: CarEngineState) {
+        self.brend = brend
+        self.year = year
+        self.trunkVolume = trunkVolume
+        self.filledTrunkVolume = filledTrunkVolume
+        self.windowsState = windowsState
+        self.engineState = engineState
+    }
+    
+    func doAction(action: CarActions) {
+        
+    }
+    
+}
+
+class SportCar: Car {
+    let doorCount: Int
+    let isSunroof: Bool
+    var sunroofState: SportcarSunroofState
+    
+    init (brend: String, year: Int, trunkVolume: Double, filledTrunkVolume: Double, windowsState: CarWindowsState, engineState: CarEngineState, doorCount: Int, isSunroof: Bool,sunroofState: SportcarSunroofState ) {
+        self.doorCount = doorCount
+        self.isSunroof = isSunroof
+        self.sunroofState = sunroofState
+        super.init(brend: brend, year: year, trunkVolume: trunkVolume, filledTrunkVolume: filledTrunkVolume, windowsState: windowsState, engineState: engineState)
+    }
+    
+    override func doAction(action: CarActions) {
+        switch action {
+			case .closeWindows:
+				self.windowsState = .closed
+				print("Windows are closed")
+			case .openWindows:
+				self.windowsState = .opened
+				print("Windows are opened")
+			case .startEngine:
+				self.engineState = .started
+				print("Engine started")
+			case .stopEngine:
+				self.engineState = .stopped
+				print("Engine stopped")
+			case .closeSuunroof:
+				self.sunroofState = .closed
+				print("Sunroof closed")
+			case .openSunroof:
+				self.sunroofState = .opened
+				print("Sunroof opened")
+			default:
+				print("You can not use this action for thise car")
+        }
+    }
+    
+    func printData() {
+        print("brend: \(brend) year: \(year) filled trunk volume: \(filledTrunkVolume) windows status: \(windowsState) engine state: \(engineState) door count: \(doorCount) sunroof: \(isSunroof) sunroof state: \(sunroofState)")
+    }
+}
+
+class TrunkCar: Car {
+    var isTrailer: Bool
+    var trailerState: TrunkTrailerState
+    
+    init (brend: String, year: Int, trunkVolume: Double, filledTrunkVolume: Double, windowsState: CarWindowsState, engineState: CarEngineState, isTrailer: Bool, trailerState: TrunkTrailerState) {
+        self.isTrailer = isTrailer
+        self.trailerState = trailerState
+        super.init(brend: brend, year: year, trunkVolume: trunkVolume, filledTrunkVolume: filledTrunkVolume, windowsState: windowsState, engineState: engineState)
+    }
+    
+    override func doAction(action: CarActions) {
+        switch action {
+			case .closeWindows:
+				self.windowsState = .closed
+				print("Windows are closed")
+			case .openWindows:
+				self.windowsState = .opened
+				print("Windows are opened")
+			case .startEngine:
+				self.engineState = .started
+				print("Engine started")
+			case .stopEngine:
+				self.engineState = .stopped
+				print("Engine stopped")
+			case .attachTrailer:
+				self.trailerState = .attached
+				print("Trailer is attached")
+			case .uncoupleTrailer:
+				self.trailerState = .uncoupled
+				print("Tailer is uncoupled")
+			default:
+				print("You can not use this action for thise car")
+        }
+    }
+    func printData() {
+        print("brend: \(brend) year: \(year) filled trunk volume: \(filledTrunkVolume) windows status: \(windowsState) engine state: \(engineState) trailer: \(isTrailer) trailer state: \(trailerState)")
+    }
+}
+
+var honda = SportCar(brend: "Honda", year: 2021, trunkVolume: 100, filledTrunkVolume: 0, windowsState: .opened, engineState: .stopped, doorCount: 2, isSunroof: true, sunroofState: .closed)
+honda.printData()
+honda.doAction(action: .openSunroof)
+honda.printData()
+
+var kamaz = TrunkCar(brend: "Kamaz", year: 2019, trunkVolume: 480, filledTrunkVolume: 0, windowsState: .closed, engineState: .stopped, isTrailer: true, trailerState: .attached)
+kamaz.printData()
+kamaz.doAction(action: .uncoupleTrailer)
+kamaz.printData()
+
