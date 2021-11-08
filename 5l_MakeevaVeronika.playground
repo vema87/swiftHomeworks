@@ -1,0 +1,166 @@
+enum CarEngineState {
+    case started
+    case stopped
+}
+enum CarWindowsState {
+    case opened
+    case closed
+}
+
+enum CarActions {
+    case closeWindows
+    case openWindows
+    case startEngine
+    case stopEngine
+    case uncoupleTrailer // отцепить прицеп
+    case attachTrailer
+    case openSunroof
+    case closeSuunroof
+}
+
+enum SportcarSunroofState {
+    case opened
+    case closed
+}
+
+enum TrunkTrailerState {
+    case uncoupled
+    case attached
+}
+
+protocol Car {
+    var brend: String { get }
+    var year: Int { get }
+    var trunkVolume: Double { get }
+    var filledTrunkVolume: Double { get set }
+    var windowsState: CarWindowsState { get set }
+    var engineState: CarEngineState { get set }
+}
+
+extension Car {
+    mutating func openWindows() {
+        self.windowsState = .opened
+        print("Windows opened")
+    }
+    mutating func closeWindows() {
+        self.windowsState = .closed
+        print("Windows closed")
+    }
+}
+
+extension Car {
+    mutating func startEngine() {
+        self.engineState = .started
+        print("Engine started")
+    }
+    mutating func stopEngine() {
+        self.engineState = .stopped
+        print("Engine stopped")
+    }
+}
+
+extension Car {
+    mutating func loadCargo(volume: Double) {
+        if trunkVolume >= (filledTrunkVolume + volume) {
+            self.filledTrunkVolume = filledTrunkVolume + volume
+            print("New filled Trunk Volume is ", filledTrunkVolume)
+        } else {
+            print("You already loaded ", filledTrunkVolume, " litres from " , trunkVolume, " litres. You try to load ", volume, " liters. It is absolutely impossible")
+        }
+    }
+    mutating func unloadCargo(volume: Double) {
+        if (filledTrunkVolume - volume) > 0 { 
+            self.filledTrunkVolume = filledTrunkVolume - volume
+            print("New filled Trunk Volume is ", filledTrunkVolume)
+        } else {
+            print("Filled Trunk Volume is ", filledTrunkVolume, " litres. You try to unload ", volume, " litres. It is absolutely impossible")
+        }
+    }
+}
+
+class SportCar: Car {
+    var brend: String
+    var year: Int
+    var trunkVolume: Double
+    var filledTrunkVolume: Double
+    var windowsState: CarWindowsState
+    var engineState: CarEngineState
+    var sunroofState: SportcarSunroofState
+    
+    init (brend: String, year: Int, trunkVolume: Double, filledTrunkVolume: Double, windowsState: CarWindowsState, engineState: CarEngineState, sunroofState: SportcarSunroofState) {
+        self.brend = brend
+        self.year = year
+        self.trunkVolume = trunkVolume
+        self.filledTrunkVolume = filledTrunkVolume
+        self.windowsState = windowsState
+        self.engineState = engineState
+        self.sunroofState = sunroofState
+    }
+}
+
+extension SportCar {
+    func openSunroof() {
+        self.sunroofState = .opened
+        print("Sunroof opened")
+    }
+    
+    func closeSunroof() {
+        self.sunroofState = .closed
+        print("Sunroof closed")
+    }
+}
+
+extension SportCar: CustomStringConvertible {
+    var description: String {
+        return "Brend: \(brend), year: \(year), trunkVolume: \(trunkVolume), filledTrunkVolume: \(filledTrunkVolume), windows state: \(windowsState), engine state: \(engineState), sunroof state: \(sunroofState)"
+    }
+}
+
+class TrunkCar: Car {
+    var brend: String
+    var year: Int
+    var trunkVolume: Double
+    var filledTrunkVolume: Double
+    var windowsState: CarWindowsState
+    var engineState: CarEngineState
+    var trailerState: TrunkTrailerState
+    
+    init (brend: String, year: Int, trunkVolume: Double, filledTrunkVolume: Double, windowsState: CarWindowsState, engineState: CarEngineState, trailerState : TrunkTrailerState) {
+        self.brend = brend
+        self.year = year
+        self.trunkVolume = trunkVolume
+        self.filledTrunkVolume = filledTrunkVolume
+        self.windowsState = windowsState
+        self.engineState = engineState
+        self.trailerState = trailerState
+    }
+}
+
+extension TrunkCar {
+    func attachTrailer() {
+        self.trailerState = .attached
+        print("Trailer is attached")
+    }
+    func upcoupleTrailer() {
+        self.trailerState = .uncoupled
+        print("Trailer is uncoupled")
+    }
+}
+
+extension TrunkCar: CustomStringConvertible {
+    var description: String {
+        return "Brend: \(brend), year: \(year), trunkVolume: \(trunkVolume), filledTrunkVolume: \(filledTrunkVolume), windows state: \(windowsState), engine state: \(engineState), trailer state: \(trailerState)"
+    }
+}
+
+
+var honda = SportCar(brend: "honda", year: 2021, trunkVolume: 100, filledTrunkVolume: 10, windowsState: .closed, engineState: .stopped, sunroofState: .closed)
+print(honda.description)
+
+honda.openSunroof()
+print(honda.description)
+
+var kamaz = TrunkCar(brend: "kamaz", year: 2019, trunkVolume: 400, filledTrunkVolume: 0, windowsState: .opened, engineState: .started, trailerState: .attached) 
+print(kamaz.description)
+kamaz.upcoupleTrailer()
+print(kamaz.description)
