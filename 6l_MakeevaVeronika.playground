@@ -1,0 +1,85 @@
+/* 
+ 1. Реализовать свой тип коллекции «очередь» (queue) c использованием дженериков.
+ 2. Добавить ему несколько методов высшего порядка, полезных для этой коллекции (пример: filter для массивов)
+ 3. * Добавить свой subscript, который будет возвращать nil в случае обращения к несуществующему индексу.
+ */
+
+struct Queue<T> {
+    private var elements: [T] = []
+    
+    func printQueue() {
+        
+        var desc = ""
+        for el in self.elements {
+            desc += "\(el)  "
+        }
+        print(desc)
+    }
+    
+    mutating func push(element: T) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> T?{
+        return elements.removeFirst()
+    }
+    
+    mutating func insert(element: T, at: Int) {
+        elements.insert(element, at: at)
+    }
+    
+    func count() -> Int {
+        return self.elements.count
+    }
+    
+    func sort(function: (T, T) -> Bool) -> Queue<T> {
+        
+        var tmpQueue = Queue<T>()
+        tmpQueue.elements = self.elements.sorted(by: function)
+        return tmpQueue
+    }
+    
+    func filter(function: (T) -> Bool) -> Queue<T> {
+        var tmpQueue = Queue<T>()
+        for el in self.elements {
+            if function(el) {
+                tmpQueue.push(element: el)
+            }
+        }
+        return tmpQueue
+    }
+    
+    subscript(index: Int) -> T? {
+        var count = self.elements.count
+        if 0...count-1 ~= index {
+            return self.elements[index]
+        } 
+        return nil 
+    }
+}
+
+
+var myQueue = Queue<Int>()
+myQueue.push(element: 20)
+myQueue.push(element: 5)
+myQueue.push(element: 10)
+myQueue.push(element: 2)
+myQueue.push(element: 6)
+myQueue.push(element: 1)
+myQueue.push(element: 3)
+myQueue.printQueue()
+
+myQueue.pop()
+myQueue.printQueue()
+
+var filteredQueue = Queue<Int>()
+filteredQueue = myQueue.filter(function: {$0 % 2 == 0})
+filteredQueue.printQueue()
+
+var sortedQueue = Queue<Int>()
+sortedQueue = myQueue.sort(function: {$0<$1})
+sortedQueue.printQueue()
+
+print(myQueue[-1])
+print(myQueue[myQueue.count()])
+print(myQueue[myQueue.count()-1]!)
