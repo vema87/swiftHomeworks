@@ -1,0 +1,35 @@
+import Foundation
+
+/* 1. Придумать класс, методы которого могут завершаться неудачей и возвращать либо значение, либо ошибку Error?. Реализовать их вызов и обработать результат метода при помощи конструкции if let, или guard let. */
+
+class SalesDepartment {
+  var employees = [
+    "ivanov" : 10.25,
+    "petrov" : 100.00,
+    "sidorov": 50.50,
+  ]
+  var maxEmploeesCount: Int = 10
+
+  func getEmployeeSalary(employeeName: String) -> Double? {
+    guard let salary = employees[employeeName.lowercased()] 
+    else {
+      return nil
+    }
+    return salary
+  }
+}
+
+var employees = SalesDepartment()
+if let salary = employees.getEmployeeSalary(employeeName: "Ivanov") {
+  print("Salary for Ivanov is \(salary)")
+}
+else {
+  print("Employee with name Ivanov does not exist")
+}
+
+if let salary = employees.getEmployeeSalary(employeeName: "Orlov") {
+  print("Salary for Orlov is \(salary)")
+}
+else {
+  print("Employee with name Orlov does not exist")
+}
